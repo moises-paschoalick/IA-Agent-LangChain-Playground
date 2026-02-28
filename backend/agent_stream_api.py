@@ -4,12 +4,23 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.messages import HumanMessage
 
+from fastapi.middleware.cors import CORSMiddleware
+
 import json
 import asyncio
 
 load_dotenv()
 
 app = FastAPI(title="LangChain Agent Streaming API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # para dev apenas
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/agent/stream")
 async def agent_stream():
@@ -24,7 +35,7 @@ async def agent_stream():
     async def event_generator():
         ## Com o astream, não espera o resultado ficar pronto para enviar
         async for token, metadata in agent.astream(
-            {"messages": [HumanMessage(content="Tell me all about Luna City, the capital of the Moon")]},
+            {"messages": [HumanMessage(content="Escreva sobre Luna City, a capital da Lua")]},
             stream_mode="messages"
         ):
             if token.content:
