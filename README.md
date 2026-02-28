@@ -78,7 +78,7 @@ uvicorn agent_stream_api:app --reload --port 8000
 
 4. Endpoint streaming: http://localhost:8000/agent/astream
 
-# Pode ser consumido via EventSource no front-end ou curl -N
+Pode ser consumido via EventSource no front-end ou curl -N
 ```
 curl -N http://localhost:8000/agent/astream
 ```
